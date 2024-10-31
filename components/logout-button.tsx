@@ -3,22 +3,23 @@
 import { logoutUser } from "@/actions/user/logoutUser";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/app/hooks/use-toast";
 
-const LogoutButton = () => {
+const LogoutButton: React.FC = () => {
     const router = useRouter();
 
     const handleLogout = async () => {
-        const success = await logoutUser();
-        if (success.success) {
-            router.push("/");
-            toast({
-                title: "logout successfully"
-            })
-        } else {
-            toast({
-                title: "problem in logout"
-            })
+        try {
+            const result = await logoutUser();
+
+            if (result.success) {
+                toast({ title: "Logged out successfully" });
+                router.push("/");
+            } else {
+                toast({ title: "Problem logging out", description: "Please try again later." });
+            }
+        } catch (error) {
+            toast({ title: "An error occurred", description: "Unable to log out at this time." });
         }
     };
 

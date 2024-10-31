@@ -1,39 +1,58 @@
 "use client";
 
-import { CookingPot, Settings, UserPen } from "lucide-react";
-import { GoHome } from "react-icons/go";
-import Link from "next/link";
+import {
+    CookingPot,
+    Settings,
+    UserPen
+} from "lucide-react";
 import { usePathname } from "next/navigation";
+import { GoHome } from "react-icons/go";
+import { ElementType } from "react";
+import Link from "next/link";
 import clsx from "clsx";
 
-const navigationLinks = [
+import { UserRole } from "@prisma/client";
+
+import { useUser } from "@/app/hooks/useUser";
+
+interface NavigationLink {
+    route: string;
+    label: string;
+    icon: ElementType;
+    requiresHost?: boolean;
+}
+
+const navigationLinks: NavigationLink[] = [
     { route: "/profile", label: "Profile", icon: UserPen },
-    { route: "/dashboard", label: "Dashboard", icon: GoHome },
-    { route: "/resturent", label: "Resturent", icon: CookingPot },
+    { route: "/dashboard", label: "Dashboard", icon: GoHome, requiresHost: true },
+    { route: "/resturent", label: "Restaurant", icon: CookingPot, requiresHost: true },
     { route: "/settings", label: "Settings", icon: Settings },
 ];
 
-
 export default function Sidebar() {
     const pathname = usePathname();
+    const { user } = useUser();
+
+    const filteredLinks = navigationLinks.filter(
+        (link) => user?.role === UserRole.HOST || !link.requiresHost
+    );
 
     return (
         <div className="w-[250px] h-full p-10 border-r">
             <ul className="space-y-4">
-                {navigationLinks.map((item) => {
-                    const Icon = item.icon;
-                    const isActive = pathname === item.route;
+                {filteredLinks.map(({ route, label, icon: Icon }) => {
+                    const isActive = pathname === route;
 
                     return (
-                        <Link key={item.route} href={item.route}>
+                        <Link key={route} href={route}>
                             <li
                                 className={clsx(
-                                    "flex items-center gap-2 p-2 rounded-lg",
-                                    isActive && "bg-slate-300"
+                                    "flex items-center gap-2 p-2 rounded-lg transition-colors duration-200",
+                                    isActive ? "bg-slate-300" : "hover:bg-slate-200"
                                 )}
                             >
                                 <Icon size={20} />
-                                {item.label}
+                                <span>{label}</span>
                             </li>
                         </Link>
                     );

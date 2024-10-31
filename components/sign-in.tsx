@@ -18,7 +18,7 @@ import { ShieldQuestion } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SignInUserInput, signInUserSchema } from "@/lib/validationSchemas";
 import { signInUser } from "@/actions/user/signInUser";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/app/hooks/use-toast";
 
 export default function SignIn() {
     const router = useRouter();

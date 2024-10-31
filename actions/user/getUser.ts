@@ -18,8 +18,7 @@ export const getUser = async () => {
         const decodedToken = verify(token, JWT_SECRET) as { userId: string; email: string };
 
         const user = await db.user.findUnique({
-            where: { id: decodedToken.userId },
-            select: { id: true, name: true, email: true },
+            where: { id: decodedToken.userId }
         });
 
         if (!user) {

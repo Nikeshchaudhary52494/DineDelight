@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { RegisterUserInput, registerUserSchema } from "@/lib/validationSchemas";
 import { registerUser } from "@/actions/user/registerUser";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/app/hooks/use-toast";
 
 export default function SignUp() {
     const form = useForm({
