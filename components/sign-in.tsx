@@ -77,12 +77,12 @@ export default function SignIn() {
     };
 
     return (
-        <div className="space-y-4 max-w-sm w-full">
-            <div className="border p-10 rounded-lg shadow-lg space-y-2">
+        <div className="w-full max-w-sm space-y-4">
+            <div className="p-10 space-y-2 border rounded-lg shadow-lg">
                 <h1 className="text-3xl font-bold">DineDelight</h1>
                 <h2 className="text-3xl">Sign in</h2>
                 <div
-                    className="flex p-2 w-full bg-yellow-100 gap-2 cursor-pointer text-yellow-800 font-bold rounded-lg duration-200"
+                    className="flex w-full gap-2 p-2 font-bold text-yellow-800 duration-200 bg-yellow-100 rounded-lg cursor-pointer"
                     onClick={handleGuestLogin}
                 >
                     <ShieldQuestion />
@@ -124,7 +124,7 @@ export default function SignIn() {
             </div>
             <div
                 onClick={() => router.push("/sign-up")}
-                className="border text-center shadow-lg p-4 cursor-pointer rounded-lg"
+                className="p-4 text-center border rounded-lg shadow-lg cursor-pointer"
             >
                 <p className="text-sm text-muted-foreground">Create your DineDelight account</p>
             </div>

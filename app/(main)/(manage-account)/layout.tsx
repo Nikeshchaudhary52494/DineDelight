@@ -14,7 +14,7 @@ export default async function RootLayout({
     return (
         <>
             <div className="flex h-full">
-                <div className="w-[250px] ">
+                <div className="w-[250px]">
                     <Sidebar />
                 </div>
                 {children}

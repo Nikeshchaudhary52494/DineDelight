@@ -25,7 +25,7 @@ interface NavigationLink {
 const navigationLinks: NavigationLink[] = [
     { route: "/profile", label: "Profile", icon: UserPen },
     { route: "/dashboard", label: "Dashboard", icon: GoHome, requiresHost: true },
-    { route: "/resturent", label: "Restaurant", icon: CookingPot, requiresHost: true },
+    { route: "/restaurant", label: "Restaurant", icon: CookingPot, requiresHost: true },
     { route: "/settings", label: "Settings", icon: Settings },
 ];
 
@@ -39,7 +39,7 @@ export default function Sidebar() {
 
     return (
         <div className="w-[250px] h-full p-10 border-r">
-            <ul className="space-y-4">
+            <ul className="space-y-2 flex flex-col">
                 {filteredLinks.map(({ route, label, icon: Icon }) => {
                     const isActive = pathname === route;
 

@@ -24,10 +24,12 @@ model User {
 }
 
 model Restaurant {
-  id         String @id @default(cuid())
+  id         String   @id @default(cuid())
   name       String
   location   String
   rating     Float?
   coverImage String
   openTiming String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
