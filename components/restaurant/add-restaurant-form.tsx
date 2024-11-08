@@ -23,10 +23,12 @@ import FileUpload from "@/components/file-upload";
 import { addRestaurant } from "@/actions/restaurant/addRestaurant";
 import { toast } from "@/app/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/app/hooks/useUser";
 
 export function AddRestaurantForm() {
 
     const router = useRouter();
+    const { user } = useUser()
 
     const form = useForm<AddRestaurantInput>({
         resolver: zodResolver(addRestaurantSchema),
@@ -48,7 +50,7 @@ export function AddRestaurantForm() {
             formData.append("coverImage", data.coverImage);
             formData.append("openTiming", data.openTiming);
 
-            const result = await addRestaurant(formData);
+            const result = await addRestaurant(formData, user?.id!);
 
             if (result.success) {
                 router.push("/restaurant");

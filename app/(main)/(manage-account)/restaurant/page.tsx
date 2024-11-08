@@ -1,32 +1,33 @@
+import { getUser } from "@/actions/user/getUser";
+import { db } from "@/lib/db";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-// import { getAllResturents } from "@/actions/restaurant/getAllResturents"; // Update this path as necessary
 
 export default async function Page() {
-    // const resturents = await getAllResturents();
-
+    const { user } = await getUser()
+    const myRestaurants = await db.restaurant.findMany({
+        where: {
+            ownerid: user?.id
+        }
+    })
     return (
-        <div className="p-10 w-full space-y-4">
+        <div className="w-full p-10 space-y-4">
             <h2 className="text-3xl font-bold">Manage your restaurants</h2>
-
-            {/* Add New Restaurant Button */}
-            <Link href={"restaurant/add-restaurant"} >
-                <div className="flex relative items-center space-x-4">
-                    <div className="shadow-xl flex justify-center items-center w-40 h-60 rounded-lg cursor-pointer">
-                        <Plus size={40} className="border-dashed border rounded-full p-2" />
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <Link href={"restaurant/add-restaurant"} >
+                    <div className="relative flex items-center space-x-4">
+                        <div className="flex items-center justify-center w-full rounded-lg shadow-xl cursor-pointer h-60">
+                            <Plus size={40} className="p-2 border border-dashed rounded-full" />
+                        </div>
+                        <span className="absolute text-sm text-gray-500 top-[60%] w-full text-center">Add New Restaurant</span>
                     </div>
-                    <span className="text-gray-500 absolute top-[60%] text-sm">Add New Restaurant</span>
-                </div>
-            </Link>
-
-            {/* Restaurants List */}
-            {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {resturents.map((restaurant) => (
-                    <div key={restaurant.id} className="shadow-lg rounded-lg overflow-hidden">
+                </Link>
+                {myRestaurants.map((restaurant) => (
+                    <div key={restaurant.id} className="overflow-hidden rounded-lg shadow-lg">
                         <img
-                            src={restaurant.imageUrl}
+                            src={restaurant.coverImage}
                             alt={`${restaurant.name} image`}
-                            className="w-full h-40 object-cover"
+                            className="object-cover w-full h-40"
                         />
                         <div className="p-4">
                             <h3 className="text-xl font-semibold">{restaurant.name}</h3>
@@ -34,7 +35,7 @@ export default async function Page() {
                         </div>
                     </div>
                 ))}
-            </div> */}
+            </div>
         </div>
     );
 }

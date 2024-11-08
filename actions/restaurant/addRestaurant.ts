@@ -3,8 +3,7 @@
 import { db } from "@/lib/db";
 import { addRestaurantSchema } from "@/lib/validationSchemas";
 
-export const addRestaurant = async (formData: FormData) => {
-    console.log(formData)
+export const addRestaurant = async (formData: FormData, ownerid: string) => {
 
     const parsedData = addRestaurantSchema.safeParse({
         name: formData.get("name"),
@@ -25,11 +24,10 @@ export const addRestaurant = async (formData: FormData) => {
             name,
             location,
             coverImage,
-            openTiming
+            openTiming,
+            ownerid
         },
     });
-
-    console.log(name);
 
     return { success: true, message: "Restaurant added successfully", restaurant: newRestaurant };
 };

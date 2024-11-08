@@ -25,6 +25,7 @@ model User {
 
 model Restaurant {
   id         String   @id @default(cuid())
+  ownerid    String
   name       String
   location   String
   rating     Float?

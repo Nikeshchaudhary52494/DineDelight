@@ -3,8 +3,11 @@ import React from 'react'
 import { motion } from "framer-motion";
 import Link from 'next/link';
 import { logoutUser } from '@/actions/user/logoutUser';
+import { useUser } from '@/app/hooks/useUser';
 
 export default function ProfileTab() {
+
+    const { user } = useUser();
 
     const handleLogout = () => {
         logoutUser();
@@ -21,8 +24,8 @@ export default function ProfileTab() {
                     <img src="" alt="" />
                 </div>
                 <div className='flex flex-col'>
-                    <span className='font-bold uppercase'>Nikesh</span>
-                    <span className='text-sm'>nikeshchaudhary@gamil.com</span>
+                    <span className='font-bold uppercase'>{user?.name}</span>
+                    <span className='text-sm'>{user?.email}</span>
                 </div>
             </div>
 
