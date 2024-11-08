@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import NavBar from "@/components/navBar";
 import { getUser } from "@/actions/user/getUser";
+import NavBar from "@/components/home/navBar";
 
 export const metadata: Metadata = {
     title: "Create Next App",

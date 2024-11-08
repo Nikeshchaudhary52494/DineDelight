@@ -55,7 +55,7 @@ export default function SignUp() {
     };
 
     return (
-        <div className="border p-10 rounded-lg shadow-lg max-w-sm w-full">
+        <div className="w-full max-w-sm p-10 border rounded-lg shadow-lg">
             <h1 className="text-3xl font-bold">DineDelight</h1>
             <h2 className="text-3xl">Create account</h2>
             <Form {...form}>
@@ -107,9 +107,9 @@ export default function SignUp() {
                     </Button>
                 </form>
             </Form>
-            <p className="text-sm text-muted-foreground pt-2">
+            <p className="pt-2 text-sm text-muted-foreground">
                 Already have an account?{" "}
-                <Link className="text-primary font-semibold underline" href={"/sign-in"}>
+                <Link className="font-semibold underline text-primary" href={"/sign-in"}>
                     Sign-in
                 </Link>
             </p>

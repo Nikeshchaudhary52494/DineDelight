@@ -1,6 +1,6 @@
 import { getUser } from "@/actions/user/getUser"
+import LogoutButton from "../auth/logout-button";
 
-import LogoutButton from "./logout-button";
 
 export default async function Profile() {
     const { user } = await getUser();

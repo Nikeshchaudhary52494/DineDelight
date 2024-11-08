@@ -1,9 +1,9 @@
 "use client";
 
 import { logoutUser } from "@/actions/user/logoutUser";
-import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "@/app/hooks/use-toast";
+import { Button } from "../ui/button";
 
 const LogoutButton: React.FC = () => {
     const router = useRouter();
@@ -25,7 +25,7 @@ const LogoutButton: React.FC = () => {
 
     return (
         <Button
-            className="bg-red-200 font-bold py-2 px-4 rounded-lg text-red-900 hover:underline text-sm"
+            className="px-4 py-2 text-sm font-bold text-red-900 bg-red-200 rounded-lg hover:underline"
             onClick={handleLogout}
         >
             Sign Out

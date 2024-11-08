@@ -39,7 +39,7 @@ export default function Sidebar() {
 
     return (
         <div className="w-[250px] h-full p-10 border-r">
-            <ul className="space-y-2 flex flex-col">
+            <ul className="flex flex-col space-y-2">
                 {filteredLinks.map(({ route, label, icon: Icon }) => {
                     const isActive = pathname === route;
 

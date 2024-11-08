@@ -3,9 +3,10 @@
 import { UserRound } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import ProfileTab from "./profile-tab";
-import { Button } from "./ui/button";
+
 import { useRouter } from "next/navigation";
+import ProfileTab from "./profile-tab";
+import { Button } from "../ui/button";
 
 interface NavBarProps {
     isUser: boolean;
@@ -16,7 +17,7 @@ export default function NavBar({ isUser }: NavBarProps) {
     const router = useRouter();
 
     return (
-        <div className="flex justify-between h-18 items-center p-4 border-b">
+        <div className="flex items-center justify-between p-4 border-b h-18">
             <div>
                 <Link href="/">
                     <h1 className="text-3xl font-bold cursor-pointer">DineDelight</h1>
