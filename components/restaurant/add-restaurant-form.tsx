@@ -36,7 +36,9 @@ export function AddRestaurantForm() {
             name: "",
             location: "",
             coverImage: "",
-            openTiming: ""
+            openTiming: "",
+            cuisineType: "Mix",
+            tagline: ""
         },
     });
 
@@ -49,6 +51,8 @@ export function AddRestaurantForm() {
             formData.append("location", data.location);
             formData.append("coverImage", data.coverImage);
             formData.append("openTiming", data.openTiming);
+            formData.append("cuisineType", data.cuisineType);
+            formData.append("tagline", data.tagline!);
 
             const result = await addRestaurant(formData, user?.id!);
 
@@ -86,6 +90,19 @@ export function AddRestaurantForm() {
                     />
                     <FormField
                         control={form.control}
+                        name="tagline"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Restaurant Tagline (Optional)</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Enter restaurant tagline" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
                         name="location"
                         render={({ field }) => (
                             <FormItem>
@@ -105,6 +122,19 @@ export function AddRestaurantForm() {
                                 <FormLabel>Open Timing</FormLabel>
                                 <FormControl>
                                     <Input placeholder="e.g., 10:00 AM - 10:00 PM" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="cuisineType"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Cuisine Type</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Italian, chinies..." {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

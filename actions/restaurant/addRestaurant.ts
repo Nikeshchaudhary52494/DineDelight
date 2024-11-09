@@ -10,6 +10,8 @@ export const addRestaurant = async (formData: FormData, ownerid: string) => {
         location: formData.get("location"),
         coverImage: formData.get("coverImage"),
         openTiming: formData.get("openTiming"),
+        tagline: formData.get("tagline"),
+        cuisineType: formData.get("cuisineType")
     });
 
     if (!parsedData.success) {
@@ -17,7 +19,7 @@ export const addRestaurant = async (formData: FormData, ownerid: string) => {
         return { success: false, errors: parsedData.error.flatten() };
     }
 
-    const { name, location, coverImage, openTiming } = parsedData.data;
+    const { name, location, coverImage, openTiming, tagline, cuisineType } = parsedData.data;
 
     const newRestaurant = await db.restaurant.create({
         data: {
@@ -25,7 +27,8 @@ export const addRestaurant = async (formData: FormData, ownerid: string) => {
             location,
             coverImage,
             openTiming,
-            ownerid
+            ownerid,
+            tagline
         },
     });
 

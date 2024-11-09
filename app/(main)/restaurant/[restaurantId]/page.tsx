@@ -32,7 +32,7 @@ export default async function Page({ params }: PageProps) {
                     className="w-[50%] flex relative justify-center flex-col">
                     <FaShare size={20} className="absolute text-blue-400 cursor-pointer top-5 right-10" />
                     <h4 className="text-5xl font-bold">{resturent?.name}</h4>
-                    <p className="text-slate-400">Authentic Italian cuisine with fresh ingredients.</p>
+                    <p className="text-slate-400">{resturent?.tagline}</p>
                     <RatingStars rating={2} />
                     <p className="flex items-center py-2">
                         <IoLocationSharp size={20} /> {resturent?.location}
@@ -41,7 +41,7 @@ export default async function Page({ params }: PageProps) {
                         <h4 className="text-2xl font-semibold">
                             Cuisine Type
                         </h4>
-                        <p className="">Italian</p>
+                        <p className="">{resturent?.cuisineType}</p>
                     </div>
                     <div className="mt-10">
                         <Link href={"/book-table"}>

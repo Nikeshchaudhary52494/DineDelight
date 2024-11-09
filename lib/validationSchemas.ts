@@ -13,9 +13,11 @@ export const signInUserSchema = z.object({
 
 export const addRestaurantSchema = z.object({
     name: z.string().min(1, "Restaurant name is required"),
+    tagline: z.string().optional(),
     location: z.string().min(1, "Location is required"),
     coverImage: z.string().url("Cover image must be a valid URL"),
     openTiming: z.string(),
+    cuisineType: z.string().default("mix"),
 });
 
 export type AddRestaurantInput = z.infer<typeof addRestaurantSchema>;
