@@ -11,7 +11,7 @@ export default async function RestaurantGrid() {
         <div className="container px-4 py-8 mx-auto">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {restaurants.map((restaurant) => (
-                    <Link href={`/resturent-details`} passHref key={restaurant.id}>
+                    <Link href={`/restaurant/${restaurant.id}`} passHref key={restaurant.id}>
                         <motion.div
                             initial={{ opacity: 0, y: 20, filter: "blur(5px)" }}
                             animate={{ opacity: 1, y: 0, filter: "none" }}
