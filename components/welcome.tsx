@@ -1,5 +1,4 @@
 import Image from "next/image";
-import homeImage from "@/app/assets/home.png"
 import { Button } from "./ui/button";
 import Link from "next/link";
 
@@ -14,8 +13,8 @@ export default function Welcome() {
                     <Button>Sign-up</Button>
                 </Link>
             </div>
-            <div className="flex-1 ">
-                <Image className="rounded-lg" src={homeImage} alt="HomeImage" />
+            <div className="flex-1 relative w-md aspect-square">
+                <Image className="rounded-lg object-cover" fill src={"/assets/home.png"} alt="HomeImage" />
             </div>
         </div>
     )
