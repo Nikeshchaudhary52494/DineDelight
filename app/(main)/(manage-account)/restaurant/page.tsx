@@ -1,6 +1,7 @@
 import { getUser } from "@/actions/user/getUser";
 import { db } from "@/lib/db";
 import { Plus } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default async function Page() {
@@ -23,12 +24,15 @@ export default async function Page() {
                     </div>
                 </Link>
                 {myRestaurants.map((restaurant) => (
-                    <div key={restaurant.id} className="overflow-hidden rounded-lg shadow-lg">
-                        <img
-                            src={restaurant.coverImage}
-                            alt={`${restaurant.name} image`}
-                            className="object-cover w-full h-40"
-                        />
+                    <div className="rounded-lg shadow-lg">
+                        <div key={restaurant.id} className="overflow-hidden relative rounded-t-lg h-40 w-full ">
+                            <Image
+                                src={restaurant.coverImage}
+                                alt={`${restaurant.name} image`}
+                                className="object-cover"
+                                fill
+                            />
+                        </div>
                         <div className="p-4">
                             <h3 className="text-xl font-semibold">{restaurant.name}</h3>
                             <p className="text-gray-600">{restaurant.location}</p>
