@@ -57,7 +57,7 @@ export function AddRestaurantForm() {
             const result = await addRestaurant(formData, user?.id!);
 
             if (result.success) {
-                router.push("/restaurant");
+                router.push("/my-restaurant");
                 toast({
                     description: "Restaurant added successfully",
                 });

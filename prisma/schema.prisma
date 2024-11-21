@@ -24,7 +24,7 @@ model User {
 }
 
 model Restaurant {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   ownerid     String
   name        String
   tagline     String?
@@ -32,9 +32,20 @@ model Restaurant {
   rating      Float?
   coverImage  String
   openTiming  String
-  cuisineType String   @default("mix")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isLive      Boolean    @default(false)
+  Menu        MenuItem[]
+  cuisineType String     @default("mix")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model MenuItem {
+  id           String      @id @default(cuid())
+  dish         String
+  description  String?
+  price        Float
+  Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+  restaurantId String?
 }
 
 model Review {

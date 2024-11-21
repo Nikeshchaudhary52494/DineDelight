@@ -20,6 +20,14 @@ export const addRestaurantSchema = z.object({
     cuisineType: z.string().default("mix"),
 });
 
-export type AddRestaurantInput = z.infer<typeof addRestaurantSchema>;
+export const addMenuItemSchema = z.object({
+    dish: z.string().min(1, "dish name is required"),
+    description: z.string(),
+    price: z.string(),
+    restaurantId: z.string().optional(),
+})
+
 export type RegisterUserInput = z.infer<typeof registerUserSchema>;
 export type SignInUserInput = z.infer<typeof signInUserSchema>;
+export type AddRestaurantInput = z.infer<typeof addRestaurantSchema>;
+export type AddMenuItemInput = z.infer<typeof addMenuItemSchema>;
