@@ -25,7 +25,7 @@ const LogoutButton: React.FC = () => {
 
     return (
         <Button
-            className="px-4 py-2 text-sm font-bold text-red-900 bg-red-200 rounded-lg hover:underline"
+            className="px-4 py-2 text-sm font-bold text-red-900 transition-all duration-200 bg-red-200 rounded-lg hover:bg-red-400 hover:underline"
             onClick={handleLogout}
         >
             Sign Out

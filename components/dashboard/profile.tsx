@@ -1,6 +1,6 @@
 import { getUser } from "@/actions/user/getUser"
 import LogoutButton from "../auth/logout-button";
-
+import { UserRound } from "lucide-react";
 
 export default async function Profile() {
     const { user } = await getUser();
@@ -9,7 +9,11 @@ export default async function Profile() {
             <h2 className="text-3xl font-bold text-gray-800">Account Details</h2>
 
             <div className="flex items-center gap-6">
-                <div className="w-20 h-20 overflow-hidden bg-black rounded-full">
+                <div className="flex items-center justify-center w-20 h-20 rounded-full bg-slate-700/20">
+                    <UserRound
+                        className="text-slate-400"
+                        size={40}
+                    />
                 </div>
                 <div className="flex flex-col">
                     <span className="font-bold text-gray-800 uppercase">{user?.name}</span>

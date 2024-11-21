@@ -25,7 +25,7 @@ interface NavigationLink {
 const navigationLinks: NavigationLink[] = [
     { route: "/profile", label: "Profile", icon: UserPen },
     { route: "/dashboard", label: "Dashboard", icon: GoHome, requiresHost: true },
-    { route: "/restaurant", label: "Restaurant", icon: CookingPot, requiresHost: true },
+    { route: "/my-restaurants", label: "Restaurant", icon: CookingPot, requiresHost: true },
     { route: "/settings", label: "Settings", icon: Settings },
 ];
 
