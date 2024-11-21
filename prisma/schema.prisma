@@ -33,19 +33,19 @@ model Restaurant {
   coverImage  String
   openTiming  String
   isLive      Boolean    @default(false)
-  Menu        MenuItem[]
+  menu        MenuItem[]
   cuisineType String     @default("mix")
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
 model MenuItem {
-  id           String      @id @default(cuid())
+  id           String     @id @default(cuid())
   dish         String
   description  String?
   price        Float
-  Restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
-  restaurantId String?
+  Restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
 }
 
 model Review {

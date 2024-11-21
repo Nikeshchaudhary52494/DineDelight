@@ -1,34 +1,28 @@
-import {
-    Table,
-    TableBody,
-    TableHead,
-    TableHeader,
-    TableRow
-} from "../ui/table";
-
+import { db } from "@/lib/db";
 import AddMenuItem from "./add-menu-item";
+import Menutable from "./menu-table";
+import { revalidatePath } from "next/cache";
 
 interface ManageMenuProps {
     restaurantId: string;
 }
 
-export default function ManageMenu({ restaurantId }: ManageMenuProps) {
+
+
+export default async function ManageMenu({ restaurantId }: ManageMenuProps) {
+    const resturent = await db.restaurant.findUnique({
+        where: {
+            id: restaurantId
+        },
+        include: {
+            menu: true,
+        },
+    })
     return (
         <div>
             <h1 className="text-3xl font-semibold">Menu itmes</h1>
             <p className="text-sm text-slate-400">Manage Menu items</p>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-[100px]">Dish</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead className="text-right">Price</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-
-                </TableBody>
-            </Table>
+            <Menutable menuItems={resturent?.menu!} />
             <AddMenuItem restaurantId={restaurantId} />
         </div>
     )

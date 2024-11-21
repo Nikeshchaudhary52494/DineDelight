@@ -6,7 +6,14 @@ import { db } from "@/lib/db";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import RatingStars from "@/components/restaurant/rating-stars";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
 import MyCarousel from "@/components/restaurant/my-carousel";
+import Menutable from "@/components/restaurant/menu-table";
 
 
 interface PageProps {
@@ -19,7 +26,10 @@ export default async function Page({ params }: PageProps) {
     const resturent = await db.restaurant.findUnique({
         where: {
             id: params.restaurantId
-        }
+        },
+        include: {
+            menu: true,
+        },
     })
     return (
         <div className="max-w-6xl p-4 mx-auto space-y-20">
@@ -46,7 +56,6 @@ export default async function Page({ params }: PageProps) {
                     <div className="mt-10">
                         <Link href={"/book-table"}>
                             <Button
-
                                 className="bg-yellow-500">
                                 book a table
                             </Button>
@@ -55,6 +64,24 @@ export default async function Page({ params }: PageProps) {
                 </div>
                 <MyCarousel images={[resturent?.coverImage!]} />
             </motion.div>
+            <div>
+                <Accordion type="single" collapsible>
+                    <AccordionItem value="menu-items">
+                        <AccordionTrigger>Available food items</AccordionTrigger>
+                        <AccordionContent>
+                            <Menutable menuItems={resturent?.menu!} />
+                        </AccordionContent>
+                    </AccordionItem>
+                    <AccordionItem value="contact-info">
+                        <AccordionTrigger>Contact Information</AccordionTrigger>
+                        <AccordionContent>
+                            <div>
+                                Contact info Here
+                            </div>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+            </div>
         </div>
     );
 }
