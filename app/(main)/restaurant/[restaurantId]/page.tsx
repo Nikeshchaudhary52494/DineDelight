@@ -54,7 +54,7 @@ export default async function Page({ params }: PageProps) {
                         <p className="">{resturent?.cuisineType}</p>
                     </div>
                     <div className="mt-10">
-                        <Link href={"/book-table"}>
+                        <Link href={`/restaurant/${params.restaurantId}/book-table`}>
                             <Button
                                 className="bg-yellow-500">
                                 book a table

@@ -46,7 +46,7 @@ export default async function Page({ params }: ManageMenuProps) {
                 <TabsContent value='table'>
                     <TableGrid
                         mode="host"
-                        tableId={restaurant?.tableLayout?.id!}
+                        tableLayout={restaurant?.tableLayout!}
                         restaurantId={params.restaurantId} />
                 </TabsContent>
             </Tabs>
