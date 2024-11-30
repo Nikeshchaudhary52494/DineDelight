@@ -1,29 +1,18 @@
-import { db } from "@/lib/db";
 import AddMenuItem from "./add-menu-item";
 import Menutable from "./menu-table";
-import { revalidatePath } from "next/cache";
+import { MenuItem } from "@prisma/client";
 
 interface ManageMenuProps {
-    restaurantId: string;
+    menu: MenuItem[];
 }
 
-
-
-export default async function ManageMenu({ restaurantId }: ManageMenuProps) {
-    const resturent = await db.restaurant.findUnique({
-        where: {
-            id: restaurantId
-        },
-        include: {
-            menu: true,
-        },
-    })
+export default function ManageMenu({ menu }: ManageMenuProps) {
     return (
         <div>
             <h1 className="text-3xl font-semibold">Menu itmes</h1>
             <p className="text-sm text-slate-400">Manage Menu items</p>
-            <Menutable menuItems={resturent?.menu!} />
-            <AddMenuItem restaurantId={restaurantId} />
+            <Menutable menuItems={menu} />
+            <AddMenuItem restaurantId={menu[0].restaurantId} />
         </div>
     )
 }

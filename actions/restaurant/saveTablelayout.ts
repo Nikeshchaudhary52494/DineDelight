@@ -27,7 +27,10 @@ export async function saveTable({
             disabledSeats
         },
         create: {
-            rows, cols, restaurantId
+            rows,
+            cols,
+            restaurantId,
+            isInitail: false
         }
     });
 
