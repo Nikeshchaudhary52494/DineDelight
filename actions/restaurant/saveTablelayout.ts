@@ -3,14 +3,12 @@
 import { db } from "@/lib/db";
 
 interface saveTableLayoutProps {
-    tableId: string;
     restaurantId: string,
     rows: number;
     cols: number;
     disabledSeats: string[];
 }
 export async function saveTable({
-    tableId,
     restaurantId,
     rows,
     cols,
@@ -19,7 +17,7 @@ export async function saveTable({
 
     const table = await db.tableLayout.upsert({
         where: {
-            id: tableId
+            restaurantId
         },
         update: {
             rows,
@@ -30,7 +28,6 @@ export async function saveTable({
             rows,
             cols,
             restaurantId,
-            isInitail: false
         }
     });
 

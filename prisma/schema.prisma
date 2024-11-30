@@ -46,7 +46,6 @@ model TableLayout {
   id            String        @id @default(cuid())
   rows          Int
   cols          Int
-  isInitail     Boolean       @default(true)
   disabledSeats String[]
   selectedSeats String[]
   createdAt     DateTime      @default(now())

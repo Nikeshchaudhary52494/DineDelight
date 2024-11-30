@@ -9,26 +9,18 @@ import React, { useState } from "react";
 
 interface SeatReservationProps {
     mode: "user" | "host";
-    tableLayout: TableLayout
+    tableLayout?: TableLayout
     restaurantId: string
     myBooking?: SeatBooking
 }
 
 export default function TableGrid({ mode, restaurantId, tableLayout, myBooking }: SeatReservationProps) {
 
-    const {
-        cols: tableCols,
-        rows: tableRows,
-        id: tableId,
-        disabledSeats: tableDisabledSeats,
-        selectedSeats: tableSeletedSeats
-    } = tableLayout;
-
-    const [rows, setRows] = useState<number>(tableRows || 0);
-    const [cols, setCols] = useState<number>(tableCols || 0);
-    const [selectedSeats, setSelectedSeats] = useState<string[]>(tableSeletedSeats || []);
-    const [currentSeletedSeat, setCurrentSeletedSeat] = useState("")
-    const [disabledSeats, setDisabledSeats] = useState<string[]>(tableDisabledSeats || []);
+    const [rows, setRows] = useState<number>(tableLayout?.rows || 0);
+    const [cols, setCols] = useState<number>(tableLayout?.cols || 0);
+    const [selectedSeats, setSelectedSeats] = useState<string[]>(tableLayout?.selectedSeats || []);
+    const [currentSeletedSeat, setCurrentSeletedSeat] = useState(myBooking?.id || "")
+    const [disabledSeats, setDisabledSeats] = useState<string[]>(tableLayout?.disabledSeats || []);
     const [disableMode, setDisableMode] = useState<boolean>(false);
 
     const { user } = useUser();
@@ -91,9 +83,15 @@ export default function TableGrid({ mode, restaurantId, tableLayout, myBooking }
 
     const handleSave = async () => {
         if (mode !== "host") return;
+        if (rows == 0 || cols == 0) {
+            toast({
+                variant: "destructive",
+                description: "Can not save, increase row or cloumns"
+            })
+            return
+        }
         try {
             await saveTable({
-                tableId,
                 rows,
                 cols,
                 disabledSeats,
@@ -114,7 +112,7 @@ export default function TableGrid({ mode, restaurantId, tableLayout, myBooking }
         try {
             await bookTable({
                 seatId: currentSeletedSeat,
-                tableId,
+                tableId: tableLayout?.id!,
                 userId: user?.id!
             })
             alert("Seats selected!");
@@ -167,16 +165,6 @@ export default function TableGrid({ mode, restaurantId, tableLayout, myBooking }
 
             {mode === "user" && (
                 <div className="mt-4">
-                    {/* <h2 className="text-xl font-bold text-center">Selected Seats:</h2> */}
-                    {/* {selectedSeats.length > 0 ? (
-                        <ul className="mt-2 text-center">
-                            {selectedSeats.map((seat) => (
-                                <li key={seat}>{seat}</li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p className="text-center">No seats selected.</p>
-                    )} */}
                     <button
                         className="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg"
                         onClick={handleUserSelection}

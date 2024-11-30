@@ -40,7 +40,6 @@ export default function MyRestaurant({
                 variant: "destructive"
             })
         }
-
     }
 
     return (
@@ -60,7 +59,10 @@ export default function MyRestaurant({
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value='menu'>
-                    <ManageMenu menu={menu} />
+                    <ManageMenu
+                        menu={menu}
+                        restaurantId={restaurant.id}
+                    />
                 </TabsContent>
                 <TabsContent value='table'>
                     <TableGrid

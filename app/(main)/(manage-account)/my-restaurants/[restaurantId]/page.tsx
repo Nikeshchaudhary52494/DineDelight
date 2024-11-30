@@ -20,15 +20,15 @@ export default async function Page({ params }: ManageMenuProps) {
         }
     })
 
-    const menuItemAvailable = restaurant?.menu ? true : false;
-    const isInitial = restaurant?.tableLayout?.isInitail;
+    const menuItemAvailable = restaurant?.menu.length === 0 ? false : true;
+    const isInitial = restaurant?.tableLayout ? false : true;
 
     return (
         <MyRestaurant
             restaurant={restaurant as Restaurant}
             menu={restaurant?.menu!}
             tablelayout={restaurant?.tableLayout!}
-            canGoLive={menuItemAvailable && !isInitial!}
+            canGoLive={menuItemAvailable && isInitial}
         />
     )
 }
