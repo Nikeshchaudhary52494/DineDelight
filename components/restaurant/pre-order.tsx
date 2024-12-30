@@ -5,6 +5,8 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import { useOrder } from "@/app/hooks/useOrder";
+import { Toast } from "../ui/toast";
+import { toast } from "@/app/hooks/use-toast";
 
 interface FoodItem {
     id: string;
@@ -22,14 +24,15 @@ const PreOrder: React.FC<PreOrderProps> = ({ foodMenu }) => {
 
     const router = useRouter();
 
-    const { order, handleAddItem, handleRemoveItem } = useOrder();
+    const { order, handleAddItem, handleRemoveItem, selectedTime, currentSelectedSeat } = useOrder();
 
     const calculateTotal = () => {
-        return Object.entries(order).reduce((total, [id, quantity]) => {
-            const item = foodMenu.find((food) => food.id === id);
-            return total + (item?.price || 0) * quantity;
+        return order.reduce((total, orderItem) => {
+            const item = foodMenu.find((food) => food.id === orderItem.menuItemId);
+            return total + (item?.price || 0) * orderItem.quantity;
         }, 0);
     };
+
 
     const handleProceed = () => {
         const selectedItems = Object.entries(order).map(([id, quantity]) => {
@@ -42,13 +45,21 @@ const PreOrder: React.FC<PreOrderProps> = ({ foodMenu }) => {
         });
     };
 
+    const handleSkip = () => {
+        if (selectedTime && currentSelectedSeat) {
+            router.push(`book-table/confirm`)
+        } else {
+            toast({ description: "Select Timing and table to continue" })
+        }
+    }
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center px-4">
                 <h2 className="text-2xl font-bold">Preselect Menu</h2>
                 <Button
                     variant="secondary"
-                    onClick={() => router.push(`book-table/confirm`)}
+                    onClick={handleSkip}
                 >Skip</Button>
             </div>
 
@@ -77,19 +88,20 @@ const PreOrder: React.FC<PreOrderProps> = ({ foodMenu }) => {
                                         <Button
                                             variant="destructive"
                                             size="sm"
-                                            onClick={() => handleRemoveItem(item)}
+                                            onClick={() => handleRemoveItem(item.id)}
                                         >
                                             -
                                         </Button>
                                         <Input
                                             readOnly
-                                            value={order[item.id] || 0}
+                                            value={order.find((o) => o.menuItemId === item.id)?.quantity || 0}
                                             className="w-12 text-center"
                                         />
+
                                         <Button
                                             variant="default"
                                             size="sm"
-                                            onClick={() => handleAddItem(item)}
+                                            onClick={() => handleAddItem(item.id)}
                                         >
                                             +
                                         </Button>

@@ -38,7 +38,8 @@ export function AddRestaurantForm() {
             coverImage: "",
             openTiming: "",
             cuisineType: "Mix",
-            tagline: ""
+            tagline: "",
+            tableCharge: "0",
         },
     });
 
@@ -53,6 +54,7 @@ export function AddRestaurantForm() {
             formData.append("openTiming", data.openTiming);
             formData.append("cuisineType", data.cuisineType);
             formData.append("tagline", data.tagline!);
+            formData.append("tableCharge", data.tableCharge)
 
             const result = await addRestaurant(formData, user?.id!);
 
@@ -135,6 +137,19 @@ export function AddRestaurantForm() {
                                 <FormLabel>Cuisine Type</FormLabel>
                                 <FormControl>
                                     <Input placeholder="Italian, chinies..." {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="tableCharge"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Table Charge</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="$200" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

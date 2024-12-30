@@ -1,9 +1,9 @@
-import Confirm from "@/components/booking/confirm";
+import MyBookings from "@/components/booking/my-bookings";
 
 export default function Page() {
     return (
         <div>
-            <Confirm />
+            <MyBookings />
         </div>
     )
 }

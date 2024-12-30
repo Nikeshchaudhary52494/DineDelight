@@ -18,6 +18,7 @@ export const addRestaurantSchema = z.object({
     coverImage: z.string().url("Cover image must be a valid URL"),
     openTiming: z.string(),
     cuisineType: z.string().default("mix"),
+    tableCharge: z.string(),
 });
 
 export const addMenuItemSchema = z.object({

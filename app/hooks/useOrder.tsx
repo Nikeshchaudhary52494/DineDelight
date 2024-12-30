@@ -1,19 +1,22 @@
-import { MenuItem } from "@prisma/client";
+import { MenuItem, TimeSlote } from "@prisma/client";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-interface Order {
-    [id: string]: number;
+interface OrderItem {
+    menuItemId: string;
+    quantity: number;
 }
 
 interface OrderContextType {
-    selectedTime: string | null;
-    setSelectedTime: (time: string) => void;
+    selectedTime: TimeSlote;
+    setSelectedTime: (slote: TimeSlote) => void;
     currentSelectedSeat: string;
     setCurrentSelectedSeat: (seat: string) => void;
-    order: Order;
-    setOrder: (order: Order) => void;
-    handleAddItem: (item: MenuItem) => void;
-    handleRemoveItem: (item: MenuItem) => void;
+    order: OrderItem[];
+    setOrder: (order: OrderItem[]) => void;
+    handleAddItem: (itemId: string) => void;
+    handleRemoveItem: (itemId: string) => void;
+    tableId: string;
+    setTableId: (tableId: string) => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
@@ -23,29 +26,41 @@ export type Props = {
 };
 
 export const MyOrderContextProvider: React.FC<Props> = ({ children }) => {
-    const [selectedTime, setSelectedTime] = useState<string | null>(null);
+    const [selectedTime, setSelectedTime] = useState<TimeSlote>("A");
     const [currentSelectedSeat, setCurrentSelectedSeat] = useState<string>("");
-    const [order, setOrder] = useState<Order>({});
+    const [tableId, setTableId] = useState<string>("");
+    const [order, setOrder] = useState<OrderItem[]>([]);
 
-    const handleAddItem = (item: MenuItem) => {
-        setOrder((prev) => ({
-            ...prev,
-            [item.id]: (prev[item.id] || 0) + 1,
-        }));
-    };
-
-    const handleRemoveItem = (item: MenuItem) => {
+    const handleAddItem = (itemId: string) => {
         setOrder((prev) => {
-            const updated = { ...prev };
-            if (updated[item.id] > 1) {
-                updated[item.id] -= 1;
+            const existingItemIndex = prev.findIndex((orderItem) => orderItem.menuItemId === itemId);
+
+            if (existingItemIndex !== -1) {
+                const updated = [...prev];
+                updated[existingItemIndex].quantity += 1;
+                return updated;
             } else {
-                delete updated[item.id];
+                return [...prev, { menuItemId: itemId, quantity: 1 }];
             }
-            return updated;
         });
     };
 
+    const handleRemoveItem = (itemId: string) => {
+        setOrder((prev) => {
+            const existingItemIndex = prev.findIndex((orderItem) => orderItem.menuItemId === itemId);
+
+            if (existingItemIndex !== -1) {
+                const updated = [...prev];
+                if (updated[existingItemIndex].quantity > 1) {
+                    updated[existingItemIndex].quantity -= 1;
+                } else {
+                    updated.splice(existingItemIndex, 1);
+                }
+                return updated;
+            }
+            return prev;
+        });
+    };
     return (
         <OrderContext.Provider
             value={{
@@ -56,7 +71,9 @@ export const MyOrderContextProvider: React.FC<Props> = ({ children }) => {
                 order,
                 setOrder,
                 handleAddItem,
-                handleRemoveItem
+                handleRemoveItem,
+                tableId,
+                setTableId,
             }}
         >
             {children}

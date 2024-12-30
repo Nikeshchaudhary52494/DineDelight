@@ -1,35 +1,47 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useOrder } from "@/app/hooks/useOrder";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Dialog, DialogContent } from "../ui/dialog";
 import { Loader2 } from "lucide-react";
+import { bookTable } from "@/actions/restaurant/bookTable";
+import { useUser } from "@/app/hooks/useUser";
 
 export default function Confirm() {
-    const { selectedTime, currentSelectedSeat, } = useOrder();
+    const params = useParams();
+    const { restaurantId } = params;
+    const { user } = useUser();
+    const { selectedTime, currentSelectedSeat, tableId, order } = useOrder();
     const [isPaying, setIsPaying] = useState(false);
     const [isConfirmed, setIsConfirmed] = useState(false);
     const router = useRouter();
 
-    const tableBookingCost = 50; // Example table booking cost
+    const tableBookingCost = 50;
     const totalCost = tableBookingCost + 200;
 
-    const handlePayment = () => {
+    const handlePayment = async () => {
         setIsPaying(true);
 
-        // Simulate payment and confirmation
         setTimeout(() => {
             setIsPaying(false);
             setIsConfirmed(true);
 
-            // Redirect after showing confirmation
+
             setTimeout(() => {
-                router.push("/my-orders"); // Replace with your actual orders page
+                router.push("/my-bookings");
             }, 1000);
         }, 2000);
+        await bookTable({
+            userId: user?.id!,
+            seatId: currentSelectedSeat,
+            tableId,
+            totalAmount: totalCost,
+            timeSlote: selectedTime,
+            preOrder: order
+        })
     };
 
     return (
@@ -76,7 +88,6 @@ export default function Confirm() {
                 </Button>
             </div>
 
-            {/* Payment Modal */}
             <Dialog open={isPaying}>
                 <DialogContent className="flex flex-col items-center justify-center space-y-4">
                     <Loader2 className="h-10 w-10 animate-spin text-green-600" />
@@ -84,7 +95,6 @@ export default function Confirm() {
                 </DialogContent>
             </Dialog>
 
-            {/* Confirmation Modal */}
             <Dialog open={isConfirmed}>
                 <DialogContent className="flex flex-col items-center justify-center space-y-4">
                     <p className="text-xl font-semibold text-green-600">Table Confirmed!</p>

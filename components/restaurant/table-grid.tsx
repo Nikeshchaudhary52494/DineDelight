@@ -3,7 +3,6 @@
 import { saveTable } from "@/actions/restaurant/saveTablelayout";
 import { toast } from "@/app/hooks/use-toast";
 import { useOrder } from "@/app/hooks/useOrder";
-import { useUser } from "@/app/hooks/useUser";
 import { SeatBooking, TableLayout } from "@prisma/client";
 import React, { useState } from "react";
 
@@ -22,8 +21,7 @@ export default function TableGrid({ mode, restaurantId, tableLayout, myBooking }
     const [disabledSeats, setDisabledSeats] = useState<string[]>(tableLayout?.disabledSeats || []);
     const [disableMode, setDisableMode] = useState<boolean>(false);
 
-    const { user } = useUser();
-    const { setCurrentSelectedSeat, currentSelectedSeat } = useOrder();
+    const { setCurrentSelectedSeat, currentSelectedSeat, setTableId } = useOrder();
 
 
 
@@ -42,6 +40,7 @@ export default function TableGrid({ mode, restaurantId, tableLayout, myBooking }
                     setSelectedSeats(selectedSeats.filter((seat) => seat !== seatId));
                 } else {
                     setCurrentSelectedSeat(seatId);
+                    setTableId(tableLayout?.id!);
                 }
             }
         }

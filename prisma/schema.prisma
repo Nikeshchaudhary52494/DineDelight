@@ -33,6 +33,7 @@ model Restaurant {
   rating        Float?
   coverImage    String
   openTiming    String
+  tableCharge   Int
   isLive        Boolean      @default(false)
   menu          MenuItem[]
   tableLayout   TableLayout?
@@ -55,6 +56,15 @@ model TableLayout {
   SeatBookings  SeatBooking[]
 }
 
+enum TimeSlote {
+  A
+  B
+  C
+  D
+  E
+  F
+}
+
 model SeatBooking {
   id            String      @id @default(cuid())
   seatNumber    String
@@ -63,15 +73,28 @@ model SeatBooking {
   tableLayoutId String
   User          User        @relation(fields: [userId], references: [id])
   userId        String
+  totalAmount   Int
+  timeSlote     TimeSlote
+  preOrder      OrderItem   @relation(fields: [orderItemId], references: [id])
+  orderItemId   String
+}
+
+model OrderItem {
+  id          String        @id @default(cuid())
+  foodItem    MenuItem      @relation(fields: [menuItemId], references: [id])
+  quantity    Int
+  menuItemId  String
+  SeatBooking SeatBooking[]
 }
 
 model MenuItem {
-  id           String     @id @default(cuid())
+  id           String      @id @default(cuid())
   dish         String
   description  String?
   price        Float
-  Restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  Restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
   restaurantId String
+  OrderItem    OrderItem[]
 }
 
 model Review {
