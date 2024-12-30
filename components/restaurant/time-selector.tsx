@@ -1,10 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
-
-// interface TimeSelectorProps {
-//     onTimeSelect: (timeSlot: string) => void;
-// }
+import { useOrder } from "@/app/hooks/useOrder";
 
 const TimeSelector = () => {
     const timeSlots = [
@@ -16,7 +12,7 @@ const TimeSelector = () => {
         "8:00 PM - 10:00 PM",
     ];
 
-    const [selectedTime, setSelectedTime] = useState<string | null>(null);
+    const { setSelectedTime, selectedTime } = useOrder();
 
     const handleSelect = (timeSlot: string) => {
         setSelectedTime(timeSlot);

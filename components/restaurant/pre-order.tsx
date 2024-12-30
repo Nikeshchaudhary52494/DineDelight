@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
+import { useOrder } from "@/app/hooks/useOrder";
 
 interface FoodItem {
     id: string;
@@ -18,26 +19,10 @@ interface PreOrderProps {
 }
 
 const PreOrder: React.FC<PreOrderProps> = ({ foodMenu }) => {
-    const [order, setOrder] = useState<{ [id: string]: number }>({});
 
-    const handleAddItem = (item: FoodItem) => {
-        setOrder((prev) => ({
-            ...prev,
-            [item.id]: (prev[item.id] || 0) + 1,
-        }));
-    };
+    const router = useRouter();
 
-    const handleRemoveItem = (item: FoodItem) => {
-        setOrder((prev) => {
-            const updated = { ...prev };
-            if (updated[item.id] > 1) {
-                updated[item.id] -= 1;
-            } else {
-                delete updated[item.id];
-            }
-            return updated;
-        });
-    };
+    const { order, handleAddItem, handleRemoveItem } = useOrder();
 
     const calculateTotal = () => {
         return Object.entries(order).reduce((total, [id, quantity]) => {
@@ -61,7 +46,10 @@ const PreOrder: React.FC<PreOrderProps> = ({ foodMenu }) => {
         <div className="space-y-6">
             <div className="flex justify-between items-center px-4">
                 <h2 className="text-2xl font-bold">Preselect Menu</h2>
-                <Button variant="secondary">Skip</Button>
+                <Button
+                    variant="secondary"
+                    onClick={() => router.push(`book-table/confirm`)}
+                >Skip</Button>
             </div>
 
             <div className="space-y-4 px-4">

@@ -20,18 +20,6 @@ export default async function Page({ params }: PageProps) {
         },
     });
 
-    const handleTimeSelect = (timeSlot: string) => {
-        console.log(`Selected time slot: ${timeSlot}`);
-    };
-
-    const handleSkip = () => {
-        console.log("Skipped pre-order. Proceeding to payment...");
-    };
-
-    const handleProceedWithOrder = (orderDetails: { items: any[]; totalPrice: number }) => {
-        console.log("Order details:", orderDetails);
-    };
-
     return (
         <div className="space-y-8 p-6">
             <div className=" p-10 border-b-2 border-dashed">
@@ -49,8 +37,6 @@ export default async function Page({ params }: PageProps) {
             <div>
                 <PreOrder
                     foodMenu={restaurant?.menu!}
-                // onSkip={handleSkip}
-                // onProceedWithOrder={handleProceedWithOrder}
                 />
             </div>
         </div>

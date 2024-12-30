@@ -1,8 +1,8 @@
 "use client";
 
-import { bookTable } from "@/actions/restaurant/bookTable";
 import { saveTable } from "@/actions/restaurant/saveTablelayout";
 import { toast } from "@/app/hooks/use-toast";
+import { useOrder } from "@/app/hooks/useOrder";
 import { useUser } from "@/app/hooks/useUser";
 import { SeatBooking, TableLayout } from "@prisma/client";
 import React, { useState } from "react";
@@ -19,11 +19,11 @@ export default function TableGrid({ mode, restaurantId, tableLayout, myBooking }
     const [rows, setRows] = useState<number>(tableLayout?.rows || 0);
     const [cols, setCols] = useState<number>(tableLayout?.cols || 0);
     const [selectedSeats, setSelectedSeats] = useState<string[]>(tableLayout?.selectedSeats || []);
-    const [currentSeletedSeat, setCurrentSeletedSeat] = useState(myBooking?.id || "")
     const [disabledSeats, setDisabledSeats] = useState<string[]>(tableLayout?.disabledSeats || []);
     const [disableMode, setDisableMode] = useState<boolean>(false);
 
     const { user } = useUser();
+    const { setCurrentSelectedSeat, currentSelectedSeat } = useOrder();
 
 
 
@@ -41,7 +41,7 @@ export default function TableGrid({ mode, restaurantId, tableLayout, myBooking }
                 if (selectedSeats.includes(seatId)) {
                     setSelectedSeats(selectedSeats.filter((seat) => seat !== seatId));
                 } else {
-                    setCurrentSeletedSeat(seatId);
+                    setCurrentSelectedSeat(seatId);
                 }
             }
         }
@@ -55,7 +55,7 @@ export default function TableGrid({ mode, restaurantId, tableLayout, myBooking }
                 const seatId = `${row}-${col}`;
                 const isSelected = selectedSeats.includes(seatId);
                 const isDisabled = disabledSeats.includes(seatId);
-                const mySeat = seatId === currentSeletedSeat;
+                const mySeat = seatId === currentSelectedSeat;
 
                 rowCells.push(
                     <div
@@ -107,20 +107,20 @@ export default function TableGrid({ mode, restaurantId, tableLayout, myBooking }
         }
     };
 
-    const handleUserSelection = async () => {
-        if (mode !== "user") return;
-        try {
-            await bookTable({
-                seatId: currentSeletedSeat,
-                tableId: tableLayout?.id!,
-                userId: user?.id!
-            })
-            alert("Seats selected!");
-        } catch (error) {
-            console.error(error);
-            toast({ description: "Failed to select seats." });
-        }
-    };
+    // const handleUserSelection = async () => {
+    //     if (mode !== "user") return;
+    //     try {
+    //         await bookTable({
+    //             seatId: currentSelectedSeat,
+    //             tableId: tableLayout?.id!,
+    //             userId: user?.id!
+    //         })
+    //         alert("Seats selected!");
+    //     } catch (error) {
+    //         console.error(error);
+    //         toast({ description: "Failed to select seats." });
+    //     }
+    // };
 
     return (
         <div className="p-4">
@@ -160,19 +160,7 @@ export default function TableGrid({ mode, restaurantId, tableLayout, myBooking }
                     </button>
                 </div>
             )}
-
             <div className="flex flex-col items-center">{renderGrid()}</div>
-
-            {/* {mode === "user" && (
-                <div className="mt-4">
-                    <button
-                        className="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg"
-                        onClick={handleUserSelection}
-                    >
-                        Confirm Selection
-                    </button>
-                </div>
-            )} */}
         </div>
     );
 }
